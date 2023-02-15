@@ -16,8 +16,7 @@
 void question1()
 {
     // TODO
-    int i;
-
+    int i,z,w;
     registerProc(getpid(),getppid(), 0, 0);
     if ( fork() == 0) {
         registerProc(getpid(),getppid(),1,1);
@@ -26,12 +25,10 @@ void question1()
             _exit(1);
         }
         wait(&i);
-        printf("%d \n", WEXITSTATUS(i)); 
-        int y = WEXITSTATUS(i);
-        _exit(++y);    
+        _exit(WEXITSTATUS(i) + 1);    
     } 
-    wait(&i);
-    int z = WEXITSTATUS(i);  
+    wait(&i); 
+    printf("%d \n", WEXITSTATUS(i));
     if ( fork() == 0 ) {
         registerProc(getpid(),getppid(),1,2);
         if ( fork() == 0) {
@@ -39,38 +36,44 @@ void question1()
             _exit(1);
         }
         wait(&i);
-        printf("%d \n", WEXITSTATUS(i)); 
-        int y = WEXITSTATUS(i);
-        z+= ++y;
-        _exit(z);
+        _exit(WEXITSTATUS(i)+1);
     };
-    int x; wait(&x);
-    printf("%d \n", WEXITSTATUS(x));
+    wait(&z);
+    printf("%d \n", WEXITSTATUS(z));
+    if ( fork() == 0 ) {
+        registerProc(getpid(),getppid(),1, 3);
+        if ( fork() == 0) { 
+        registerProc(getpid(),getppid(), 2, 3); _exit(0);
+        _exit(1);
+    }
+    wait(&i); 
+    int r = WEXITSTATUS(i); 
+    if ( fork() == 0) { 
+        registerProc(getpid(),getppid(), 2, 4); _exit(0);
+        _exit(1);
+    }
+    wait(&i);
+    int s = WEXITSTATUS(i);
+    if ( fork() == 0) { 
+        registerProc(getpid(),getppid(), 2, 5); _exit(0); 
+        _exit(1);
+    }
+    wait(&i);  
+    int u = WEXITSTATUS(i); 
+    if ( fork() == 0) { 
+        registerProc(getpid(),getppid(), 2, 6); _exit(0); 
+        _exit(1);
+    }
+    wait(&i);
+    int q = WEXITSTATUS(i);
+    w += r+s+u+q; 
+    printf("%d \n", w);  
+    _exit(++w);
+    }
+    wait(&w);
+    printf("%d \n", WEXITSTATUS(w));
     while(wait(&i)>0) {};
     printProcRegistrations();
-   //if ( fork() == 0 ) {
-   // i++;
-   // registerProc(getpid(),getppid(),1, 3);
-   // if ( fork() == 0) { 
-      //  i++;
-     //   registerProc(getpid(),getppid(), 2, 3); _exit(0);
-    //     }   
-    //if ( fork() == 0) { 
-    //    i++;
-    //    registerProc(getpid(),getppid(), 2, 4); _exit(0);
-    //     }
-    //if ( fork() == 0) { 
-    //    i++;
-    //    registerProc(getpid(),getppid(), 2, 5); _exit(0); 
-    //    }   
-    //if ( fork() == 0) { 
-    //    i++;
-    //    registerProc(getpid(),getppid(), 2, 6); _exit(0); 
-    //    }
-    //wait(&i); wait(&i); wait(&i); wait(&i);
-
-    //_exit(0);
-   //}
     
 }
 
