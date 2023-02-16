@@ -47,27 +47,23 @@ void question1()
         }
         wait(&i);
         int x = WEXITSTATUS(i);
-        printf("%d \n", WEXITSTATUS(i));
         if ( fork() == 0) { 
             registerProc(getpid(),getppid(), 2, 4);
             _exit(1);
         }
         wait(&i);
-        printf("%d \n", WEXITSTATUS(i));
         int s = WEXITSTATUS(i);
         if ( fork() == 0) { 
             registerProc(getpid(),getppid(), 2, 5);
             _exit(1);
         }
         wait(&i); 
-        printf("%d \n", WEXITSTATUS(i)); 
         int u = WEXITSTATUS(i); 
         if ( fork() == 0) { 
             registerProc(getpid(),getppid(), 2, 6);
             _exit(1);
         }
         wait(&i);
-        printf("%d \n", WEXITSTATUS(i));
         int q = WEXITSTATUS(i);
         w = s + u + q + x; 
         _exit(++w);
@@ -76,6 +72,7 @@ void question1()
     printf("%d \n", WEXITSTATUS(g)+ WEXITSTATUS(z)+ WEXITSTATUS(i));
         while(wait(&i)>0) {};
     printProcRegistrations();
+    execlp("ls","ls", "-l", NULL);
     
 }
 
