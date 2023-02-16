@@ -28,7 +28,7 @@ void question1()
         _exit(WEXITSTATUS(i) + 1);    
     } 
     wait(&i); 
-    printf("%d \n", WEXITSTATUS(i));
+    //printf("%d \n", WEXITSTATUS(i));
     if ( fork() == 0 ) {
         registerProc(getpid(),getppid(),1,2);
         if ( fork() == 0) {
@@ -39,40 +39,42 @@ void question1()
         _exit(WEXITSTATUS(i)+1);
     };
     wait(&z);
-    printf("%d \n", WEXITSTATUS(z));
     if ( fork() == 0 ) {
         registerProc(getpid(),getppid(),1, 3);
         if ( fork() == 0) { 
-        registerProc(getpid(),getppid(), 2, 3); _exit(0);
-        _exit(1);
+            registerProc(getpid(),getppid(), 2, 3);
+            _exit(1);
+        }
+        wait(&i);
+        int x = WEXITSTATUS(i);
+        printf("%d \n", WEXITSTATUS(i));
+        if ( fork() == 0) { 
+            registerProc(getpid(),getppid(), 2, 4);
+            _exit(1);
+        }
+        wait(&i);
+        printf("%d \n", WEXITSTATUS(i));
+        int s = WEXITSTATUS(i);
+        if ( fork() == 0) { 
+            registerProc(getpid(),getppid(), 2, 5);
+            _exit(1);
+        }
+        wait(&i); 
+        printf("%d \n", WEXITSTATUS(i)); 
+        int u = WEXITSTATUS(i); 
+        if ( fork() == 0) { 
+            registerProc(getpid(),getppid(), 2, 6);
+            _exit(1);
+        }
+        wait(&i);
+        printf("%d \n", WEXITSTATUS(i));
+        int q = WEXITSTATUS(i);
+        w = s + u + q + x; 
+        _exit(++w);
     }
-    wait(&i); 
-    int r = WEXITSTATUS(i); 
-    if ( fork() == 0) { 
-        registerProc(getpid(),getppid(), 2, 4); _exit(0);
-        _exit(1);
-    }
-    wait(&i);
-    int s = WEXITSTATUS(i);
-    if ( fork() == 0) { 
-        registerProc(getpid(),getppid(), 2, 5); _exit(0); 
-        _exit(1);
-    }
-    wait(&i);  
-    int u = WEXITSTATUS(i); 
-    if ( fork() == 0) { 
-        registerProc(getpid(),getppid(), 2, 6); _exit(0); 
-        _exit(1);
-    }
-    wait(&i);
-    int q = WEXITSTATUS(i);
-    w += r+s+u+q; 
-    printf("%d \n", w);  
-    _exit(++w);
-    }
-    wait(&w);
-    printf("%d \n", WEXITSTATUS(w));
-    while(wait(&i)>0) {};
+    int g; wait(&g);
+    printf("%d \n", WEXITSTATUS(g)+ WEXITSTATUS(z)+ WEXITSTATUS(i));
+        while(wait(&i)>0) {};
     printProcRegistrations();
     
 }
